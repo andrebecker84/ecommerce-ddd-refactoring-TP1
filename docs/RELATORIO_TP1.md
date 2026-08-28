@@ -258,6 +258,7 @@ Verificado por teste: o contexto não acessa `UsuarioRepository`, `ProdutoReposi
 - **Não há idempotência.** Um *retry* do adaptador HTTP geraria um segundo pagamento. Chave de idempotência por `pedidoId` é o primeiro item da próxima iteração.
 - **O processador é simulado**, como no enunciado — agora atrás de uma porta.
 - **A baixa de estoque continua antes do pagamento**, como no legado: problema real, fora do escopo desta extração.
+- **O formato do cartão é mais rigoroso que o do legado.** O original recusava apenas números com menos de 4 caracteres, sem exigir dígitos — o que aprovava entradas como `"abcd"` como cartão válido. O Value Object `NumeroCartao` exige de 13 a 19 dígitos, a faixa real de um PAN. A recusa continua sendo de negócio (`CARTAO_INVALIDO`), como no legado; o que mudou foi o critério de validade. Reproduzir o comportamento original significaria reproduzir um defeito.
 
 ---
 
